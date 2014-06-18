@@ -1,0 +1,22 @@
+[
+	{
+		name: 'Detection',
+		stat: 'agl',
+		type: 'occupational'
+	},
+	{
+		name: 'Rifle',
+		stat: 'poi',
+		type: 'military'
+	},
+	{
+		name: 'Hand Weapon',
+		stat: 'prw',
+		type: 'military'
+	},
+	{
+		name: 'Great Weapon',
+		stat: 'prw',
+		type: 'military'
+	}
+]

@@ -1,0 +1,19 @@
+[
+	{
+    name: 'Sword',
+    skill: 'Hand Weapon',
+    pow: 3,
+    attackModifier: 0,
+    specialQualities: []
+  },
+  {
+    name: 'Spear',
+    skill: 'Great Weapon',
+    pow: 3,
+    attackModifier: 0,
+    specialQualities: [ 
+    	{ name: 'Reach', description: '' },
+    	{ name: 'Set Defense', description: 'Enemy models suffer -2 to charge attack and power attack rolls against this model if the attacker is in the front arc of this model' }
+    ]
+  }
+]
