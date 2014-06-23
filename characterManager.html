@@ -183,7 +183,7 @@
               <label>Initiative</label>
               <div data-bind="text: initiative" class=" input-sm"></div>
               <label>Command Range</label>
-              <div></div>
+              <div data-bind="text: commandRange" class=" input-sm"></div>
             </div>
           </div>
         </div>
@@ -245,7 +245,7 @@
                 <tbody data-bind="foreach: meleeWeapons">
                   <tr>
                     <td data-bind="text: name"></td>
-                    <td data-bind="text: parseInt($root.getSkillLevel($data.skill))+ parseInt(attackModifier)"></td>
+                    <td data-bind="text: $root.getWeaponAttack($data)"></td>
                     <td data-bind="text: parseInt(pow) + parseInt($parent.stats.str())"></td>
                     <td>
                       <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeMeleeWeapon">&times;</button>
@@ -470,6 +470,26 @@
           });
           self.availableMeleeWeapons = ko.observableArray([]);
           self.availableRangedWeapons = ko.observableArray([]);
+
+          self.getSkillLevel = function(skillName) {
+            var level = 0;
+            $.each(self.model.skills(), function(i, skill) {
+              if(skill.name == skillName) {
+                level += parseInt(skill.level());
+                return false;
+              }
+            });
+            $.each(self.availableSkills(), function(i, skill) {
+              if(skill.name == skillName) {
+                level += parseInt(self.model.stats[skill.stat]());
+                return false;
+              }
+            });
+            return level;
+          };
+          self.hasAbility = function(abilityName) {
+            return $.grep(self.model.abilities(), function(a) { return a.name == abilityName; }).length > 0;
+          }
           self.model = ko.mapping.fromJS(model, { 
             armor: { create: function(options) { return ko.observable(options.data); } },
             race: { create: function(options) { return ko.observable(options.data); } },
@@ -512,7 +532,14 @@
             return arm;
           });
           self.model.initiative = ko.computed(function() {
-            return parseInt(self.model.stats.spd()) + parseInt(self.model.stats.prw()) + parseInt(self.model.stats.per());
+            var result = parseInt(self.model.stats.spd()) + parseInt(self.model.stats.prw()) + parseInt(self.model.stats.per());
+            result += self.hasAbility('Fast Draw') ? 2 : 0;
+            return result;
+          });
+          self.model.commandRange = ko.computed(function() {
+            var result = self.getSkillLevel('Command');
+            result += self.hasAbility('Natural Leader') ? 2 : 0;
+            return result;
           });
           self.model.rangedWeaponsWithSpecial = ko.computed(function() {
             return $.grep(self.model.rangedWeapons(), function(w) { return w.specialQualities().length > 0; });
@@ -550,21 +577,18 @@
           self.removeAbility = function(ability) {
             self.model.abilities.remove(ability);
           };
-          self.getSkillLevel = function(skillName) {
-            var level = 0;
-            $.each(self.model.skills(), function(i, skill) {
-              if(skill.name == skillName) {
-                level = parseInt(skill.level()) + parseInt(self.model.stats[skill.stat]());
-                return false;
-              }
-            });
-            return level;
+          self.getWeaponAttack = function(weapon) {
+            var total = parseInt(self.getSkillLevel(weapon.skill));
+            if(weapon.attackModifier > 0 || !self.hasAbility('Specialization (' + weapon.name + ')')) {
+              total += weapon.attackModifier;
+            }
+            return total;
           }
           self.hasSkill = function(skill) {
             return $.grep(self.model.skills(), function(s) { return s.name == skill.name; }).length > 0;
-          }
+          };
           self.addSkill = function(skill) {
-              var vm = { name: skill.name, stat: skill.stat, level: ko.observable(1) };
+              var vm = { name: skill.name, stat: skill.stat, level: ko.observable(1), type: skill.type };
               self.model.skills.push(vm);
           };
           self.removeSkill = function(skill) {
@@ -636,6 +660,11 @@
               description: "The character gains an additional quick action each turn that can be nsed onlv to pr-rll the pin on a grenade."
             },
             {
+              name: 'Natural Leader',
+              requiredSkill: { name: 'Command', level: 1 },
+              description: 'A character with Natural Leader has their command range extended by 2".'
+            },
+            {
               name: 'Poison Resistance',
               description: "The character gains boosted rolls to resist poisons and toxins."
             }
@@ -644,6 +673,11 @@
             {
               name: 'Detection',
               stat: 'agl',
+              type: 'occupational'
+            },
+            {
+              name: 'Command',
+              stat: 'int',
               type: 'occupational'
             },
             {
@@ -697,7 +731,10 @@
             {
               name: 'Aristocrat',
               requiredRace: 'Human',
-              startingCareerOnly: true
+              startingCareerOnly: true,
+              availableAbilities: [
+                "Natural Leader",
+              ]
             }
           ]);
           self.availableRangedWeapons([
