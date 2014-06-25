@@ -120,11 +120,19 @@ function CharacterViewModel(model) {
               var career = self.model.careers()[i];
               for(var j = 0; j < career.availableAbilities.length; ++j) {
                 var ability = career.availableAbilities[j];
-                if(abilities.indexOf(ability) == -1)
+                if(abilities.indexOf(ability) == -1 && !self.hasAbility(ability))
                   abilities.push(ability);
               }
             }
-            return $.map(abilities, function(ability) { return $.grep(self.availableAbilities(), function(abl) {return abl.name == ability;})[0]; });
+            abilities = $.map(abilities, function(ability) { return $.grep(self.availableAbilities(), function(abl) {return abl.name == ability;})[0]; });
+            abilities.sort(function(a, b) {
+              if (a.name < b.name)
+                return -1;
+              if (a.name > b.name)
+                return 1;
+              return 0;
+            });
+            return abilities;
           });
           self.getSkillLevel = function(skillName) {
             var level = 0;
@@ -202,6 +210,28 @@ function CharacterViewModel(model) {
           */
           self.availableAbilities([
             {
+              name: "Ambush",
+              description: 'During the first round of an encounter, this character gains boosted attack and damage rolls against enemies that have not activated that encounter.',
+              showInList: true
+            },
+            {
+              name: 'Appraise',
+              description: 'The character has a sharp eye and keen mind for detail, especially where monetary values are concerned. The character can judge the value of most fine goods with an inspection. Truly good fakes might require a Detection + INT roll to spot.',
+              showInList: true
+            },
+            {
+              name: 'Arcane Precision',
+              requiredSkill: { name: 'Detection', level: 3 },
+              description: 'When this character forfeits his movement to aim with a ranged weapon, he ignores stealth that turn.',
+              showInList: true
+            },
+            {
+              name: 'Binding',
+              requiredSkill: { name: 'Rope Use', level: 1 },
+              description: 'When the character ties up, manacles, or otherwise restrains another character with some form of restraints, add +3 to the skill roll difficulty for the bound character to escape.',
+              showInList: true
+            },
+            {
               name: 'Bomber',
               requiredSkill: { name: 'Thrown Weapon', level: 3 },
               description: "When this character's grenade ranged attack deviates, you can reroll the direction and/or distance of deviation. A roll can only be rerolled once as a result of Bomber.",
@@ -214,10 +244,27 @@ function CharacterViewModel(model) {
               showInList: true
             },
             {
+              name: 'Craft Rune Shot',
+              description: "The character can craft his own rune shot amnrunition. Instead of paying 5 gc for each metal cartridge round of rune shot ammunition, a charactcr with this ability and a rune shot casting kit can cast his own rounds, paying 1 gc for the powder, material to cast a rune bullet, and metal casing to press one round of rune shot ammunition. The character must inscribe the casing and bullet bv hand. A character can craft up to five rune shot cartridges in an hour."
+            },
+            {
+              name: 'Expert Rider',
+              requiredSkill: { name: 'Riding', level: 2 },
+              description: "The character can reroIl failed Riding rolls. Each roll can be rerolled only once as a result of Expert Rider. Additionally, provided the mount has not been knocked out, this character and his mount cannot be knocked down while this character is mounted."
+            },
+            {
               name: 'Fast Cook',
               requiredSkill: { name: 'Alchemy', level: 2 },
               description: 'The character has learned a number of time-saving shortcuts in the art of brewing potions and mixing alchemical substances. He can create alchemical items in half the normal time.',
               showInList: true
+            },
+            {
+              name: 'Fast Draw',
+              description: "A character with this skill gains +2 on initiative rolls. He also gains an additional quick action during his first turn of combat each encounter that can be used only to draw a weapon."
+            },
+            {
+              name: 'Fast Reload',
+              description: "The character gains one extra quick action each turn that can be used only to reload a ranged weapon."
             },
             {
               name: 'Field Alchemist',
@@ -240,8 +287,21 @@ function CharacterViewModel(model) {
             {
               name: 'Grenadier',
               requiredSkill: { name: 'Thrown Weapon', level: 1 },
-              description: "The character gains an additional quick action each turn that can be nsed onlv to pr-rll the pin on a grenade.",
+              description: "The character gains an additional quick action each turn that can be nsed onlv to pull the pin on a grenade.",
               showInList: true
+            },
+            {
+              name: "Gunfighter",
+              description: "The character does not suffer a -4 penalty on ranged attack rolls with pistols or carbines while engaged."
+            },
+            {
+              name: 'Keen Eyed',
+              description: 'The character can increase his effective range with a bow or rifle by feet (2") and his extreme range by sixty feet (10").'
+            },
+            {
+              name: "Light Cavalry",
+              requiredSkill: { name: 'Riding', level: 2 },
+              description: 'If this character is riding a mount not designated as a warhorse, at the end of his turn he can advance up to 5".'
             },
             {
               name: 'Natural Leader',
@@ -253,6 +313,44 @@ function CharacterViewModel(model) {
               name: 'Poison Resistance',
               description: "The character gains boosted rolls to resist poisons and toxins.",
               showInList: true
+            },
+            {
+              name: "Prowl",
+              requiredSkill: { name: 'Sneak', level: 1 },
+              description: "The character is virtually invisible while in the shadows or in terrain that grants a degree of concealment. The character gains stealth (p.220) while within terrain that provides concealment, the AOE of a spell that provides concealment, or the AOE of a cloud effect."
+            },
+            {
+              name: "Ride-By Attack",
+              requiredSkill: { name: 'Riding', level: 2 },
+              description: "While mounted, this character can combine his movement and action during his turn to make a Ride-By Attack. The character declares a Ride-By Attack at the start of his Activation Phase. He makes a full advance and can halt his movement at any point to make his attacks. After his attacks, he resumes his movement."
+            },
+            {
+              name: "Saddle Shot",
+              requiredSkill: { name: 'Riding', level: 1 },
+              description: "This character does not suffer the firing from horseback penalty when making ranged attacks while mounted (see p. 214)."
+            },
+            {
+              name: "Swift Hunter",
+              requiredStat: { name: 'agl', value: 6 },
+              description: 'When this character incapacitates an enemy by using a normal ranged attack, immediately after the attack is resolved he can advance up to twelve feet (2").'
+            },
+            {
+              name: 'Swift Rider',
+              description: 'While riding a mount, the character can move over rough terrain without penalty.'
+            },
+            {
+              name: "Traceless Path",
+              requiredSkill: { name: 'Sneak', level: 2 },
+              description: 'The character knows how to conceal his trail when moving over land. Though he can move at one half his usual rate of speed while using this ability, either on foot or horseback, anyone attempting to follow his trail has +3 added to his skill roll target number.'
+            },
+            {
+              name: "Two-Weapon Fighting",
+              requiredStat: { name: 'agl', value: 4 },
+              description: 'While fighting with a one-handed weapon or pistol in each hand, the character gains an additional attack for the second weapon. He suffers -2 on attacks rolls with the second weapon while doing so.'
+            },
+            {
+              name: 'Waylay',
+              description: 'When an attack made by this character has the chance to knock out a target, increase the target number for the Willpower roll to resist the knockout by 2.'
             }
           ]);
           self.availableSkills([
@@ -321,6 +419,38 @@ function CharacterViewModel(model) {
               startingCareerOnly: true,
               availableAbilities: [
                 "Natural Leader",
+              ]
+            },
+            {
+              name: 'Gun Mage',
+              requiredArchetype: 'Gifted',
+              availableAbilities: [
+                "Arcane Precision",
+                "Craft Rune Shot",
+                "Fast Draw",
+                "Fast Reload",
+                "Gunfighter",
+                "Keen Eyed"
+              ]
+            },
+            {
+              name: 'Highwayman',
+              availableAbilities: [
+                "Ambush",
+                "Appraise",
+                "Binding",
+                "Expert Rider",
+                "Fast Draw",
+                "Fast Reload",
+                "Light Cavalry",
+                "Prowl",
+                "Ride-By Attack",
+                "Saddle Shot",
+                "Swift Hunter",
+                "Swift Rider",
+                "Traceless Path",
+                "Two-Weapon Fighting",
+                "Waylay"
               ]
             }
           ]);

@@ -290,7 +290,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <!-- ko foreach: $root.combinedAvailableAbilities -->
-                    <li><a href="#" data-bind="click: $root.addAbility, text: name"></a></li>
+                    <li><a href="#" data-bind="click: $root.addAbility, text: name, tooltip: description" data-toggle="tooltip" data-placement="top"></a></li>
                   <!-- /ko -->
                 </ul>
               </div>
@@ -338,6 +338,22 @@
     <script src="character/js/character-viewmodel.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
+        ko.bindingHandlers.tooltip = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        if (valueUnwrapped.text != null)
+        {
+            $(element).attr('title', valueUnwrapped.text);
+            if (valueUnwrapped.alignment != null) {
+                $(element).attr('data-placement', valueUnwrapped.alignment);
+            }
+        }
+        else $(element).attr('title', valueUnwrapped);
+        $(element).tooltip();
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { }
+};
         var vm = new CharacterViewModel(new CharacterModel());
         ko.applyBindings(vm);
         $('.dropdown-toggle').dropdown();   
