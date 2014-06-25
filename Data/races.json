@@ -1,0 +1,60 @@
+[
+    {
+        name: 'Human',
+        availableArchetypes: [
+            'Gifted',
+            'Intellectual',
+            'Mighty',
+            'Skilled'
+        ]
+    },
+    {
+        name: 'Dwarf',
+        availableArchetypes: [
+            'Gifted',
+            'Intellectual',
+            'Mighty',
+            'Skilled'
+        ]
+    },
+    {
+        name: 'Gobber',
+        availableArchetypes: [
+            'Intellectual',
+            'Mighty',
+            'Skilled'
+        ]
+    },
+    {
+        name: 'Iosan',
+        availableArchetypes: [
+            'Gifted',
+            'Intellectual',
+            'Mighty',
+            'Skilled'
+        ]
+    },
+    {
+        name: 'Nyss',
+        availableArchetypes: [
+            'Gifted',
+            'Mighty',
+            'Skilled'
+        ]
+    },
+    {
+        name: 'Ogrun',
+        availableArchetypes: [
+            'Mighty',
+            'Skilled'
+        ]
+    },
+    {
+        name: 'Trollkin',
+        availableArchetypes: [
+            'Gifted',
+            'Mighty',
+            'Skilled'
+        ]
+    }
+]

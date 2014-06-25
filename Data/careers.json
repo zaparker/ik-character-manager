@@ -1,0 +1,38 @@
+[
+    {
+        name: 'Alchemist',
+        availableAbilities: [
+            'Bomber',
+            'Brew Master',
+            'Fast Cook',
+            'Field Alchemist',
+            'Fire in the Hole!',
+            'Free Style',
+            'Grenadier',
+            'Poison Resistance'
+        ]
+    },
+    {
+        name: 'Arcane Mechanik',
+        requiredArchetype: 'Gifted',
+        availableAbilities: [
+            "'Jack Marshal",
+            'Ace Commander',
+            'Arcane Engineer',
+            'Drive: Assault',
+            'Drive: Pronto',
+            'Inscribe Formulae',
+            'Resourceful',
+            'Steamo'
+        ]
+    },
+    {
+        name: 'Arcanist',
+        requiredArchetype: 'Gifted'
+    },
+    {
+        name: 'Aristocrat',
+        requiredRace: 'Human',
+        startingCareerOnly: true
+    }
+]

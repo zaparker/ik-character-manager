@@ -1,0 +1,41 @@
+[
+    {
+        name: 'Bomber',
+        requiredSkill: { name: 'Thrown Weapon', level: 3 },
+        description: "When this character's grenade ranged attack deviates, you can reroll the direction and/or distance of deviation. A roll can only be rerolled once as a result of Bomber."
+    },
+    {
+        name: 'Brew Master',
+        requiredSkill: { name: 'Alchemy', level: 2 },
+        description: 'The character can reroll failed Alchemy rolls. Each failed roll can be rerolled only once as a result of Brew Master.'
+    },
+    {
+        name: 'Fast Cook',
+        requiredSkill: { name: 'Alchemy', level: 2 },
+        description: 'The character has learned a number of time-saving shortcuts in the art of brewing potions and mixing alchemical substances. He can create alchemical items in half the normal time.'
+    },
+    {
+        name: 'Field Alchemist',
+        requiredSkill: { name: 'Alchemy', level: 1 },
+        description: 'The character gains an additional quick action each turn that can be used only to create a field alchemy quick effect.'
+    },
+    {
+        name: 'Fire in the Hole!',
+        requiredSkill: { name: 'Thrown Weapon', level: 1 },
+        description: "This character can make a grenade attack at the start of the Action Phase of his turn before moving or making his normal attacks. A character making a Fire in the Hole! attack must use his novement that turn to run or make a full advance."
+    },
+    {
+        name: 'Free Style',
+        requiredSkill: { name: 'Alchemy', level: 1 },
+        description: "The character can improvise the ingredients in his alchcmical compounds. This allows the character to attempt to make do without a specific ingredient. This requiles an Alchemy skill with a target number equal to 10 plus the gc value of the ingredient. This ability also allows the character to get by with less expensive versions of common alchemical ingredients, reducing the cost of his alchemical compounds by 1 gc each (to a minimum of 1 gc). Alchemical compounds brewed using this skill vary slightly in appearance or physical quality from items created by following time-tested recipes."
+    },
+    {
+        name: 'Grenadier',
+        requiredSkill: { name: 'Thrown Weapon', level: 1 },
+        description: "The character gains an additional quick action each turn that can be nsed onlv to pr-rll the pin on a grenade."
+    },
+    {
+        name: 'Poison Resistance',
+        description: "The character gains boosted rolls to resist poisons and toxins."
+    }
+]
