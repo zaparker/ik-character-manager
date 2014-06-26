@@ -220,6 +220,48 @@
               <div></div>
             </div>
           </div>
+          <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">Spells</h3></div>
+            <div class="panel-body benefits">
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  Add Spell <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <!-- ko foreach: $root.combinedAvailableSpells -->
+                    <li><a href="#" data-bind="click: $root.addSpell, text: name, tooltip: description" data-toggle="tooltip" data-placement="top"></a></li>
+                  <!-- /ko -->
+                </ul>
+              </div>
+              <table class="table-condensed table-spells">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>COST</th>
+                    <th>RNG</th>
+                    <th>AOE</th>
+                    <th>POW</th>
+                    <th>UP</th>
+                    <th>OFF</th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: spells">
+                  <tr>
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: cost"></td>
+                    <td data-bind="text: range"></td>
+                    <td data-bind="text: aoe"></td>
+                    <td data-bind="text: pow"></td>
+                    <td data-bind="text: upkeep"></td>
+                    <td data-bind="text: offensive"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="7" data-bind="text: description"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
         <div class="col-sm-4">
           <div class="panel panel-default">
@@ -327,6 +369,7 @@
               <!-- /ko -->
             </div>
           </div>
+          
         </div>
       </div>
     </div>

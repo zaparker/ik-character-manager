@@ -72,6 +72,18 @@ function CharacterModel() {
                 specialQualities: []
               }
             ],
+            spells: [
+              {
+                name: 'Arcane Bolt',
+                description: 'Magical bolts of energy streak toward the target.',
+                cost: 2,
+                range: 12,
+                aoe: null,
+                pow: 11,
+                upkeep: 'NO',
+                offensive: 'YES'
+              }
+            ],
             armor: {
               name: 'Tailored Plate',
               armor: 7,

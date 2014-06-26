@@ -30,6 +30,19 @@
 .table-weapons td:first-child {
   text-align: left;
 }
+.table-spells thead tr {
+  background-color: #000;
+  color: #fff;
+}
+.table-spells td {
+  text-align: center;
+}
+.table-spells td:first-child {
+  text-align: left;
+}
+.table-spells tr:nth-child(odd) {
+  font-weight: bold;
+}
 .benefits ul {
   padding-left: 16px;
 }
