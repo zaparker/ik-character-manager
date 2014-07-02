@@ -139,10 +139,12 @@ function CharacterViewModel(model) {
     var spells = [];
     for(var i = 0; i < self.model.careers().length; ++i) {
       var career = self.model.careers()[i];
-      for(var j = 0; j < career.availableSpells.length; ++j) {
-        var spell = career.availableSpells[j];
-        if(spells.indexOf(spell) == -1 && !self.hasSpell(spell))
-          spells.push(spell);
+      if(career.availableSpells) {
+        for(var j = 0; j < career.availableSpells.length; ++j) {
+          var spell = career.availableSpells[j];
+          if(spells.indexOf(spell) == -1 && !self.hasSpell(spell))
+            spells.push(spell);
+        }
       }
     }
     spells = $.map(spells, function(spell) { return $.grep(self.availableSpells(), function(spl) {return spl.name == spell;})[0]; });

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Character Sheet</title>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="character/css/character.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -14,6 +13,71 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+.nav.sub {
+    margin-left: 32px;
+  }
+
+      /* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: absolute;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+
+
+}
+
+      .main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+.nav-sidebar > .active > ul > .active > a,
+.nav-sidebar > .active > ul > .active > a:hover,
+.nav-sidebar > .active > ul > .active > a:focus {
+  color: #fff;
+  background-color: #54adec;
+}
+
+    </style>
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -36,343 +100,369 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <div class="container" data-bind="with: model">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
-          <div class="panel panel-default">
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-md-4">
-                  <label>Character Name</label>
-                  <input type="text" data-bind="value: name" class="form-control input-sm" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-2 col-sm-4 col-xs-6">
-                  <label>Race</label>
-                  <select type="text" data-bind="options: $parent.availableRaces, optionsText: 'name', value: race" class="form-control input-sm" ></select>
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6">
-                  <label>Archetype</label>
-                  <select type="text" data-bind="options: race().availableArchetypes, value: archetype" class="form-control input-sm" ></select>
-                </div>
-                <div class="col-md-8 col-sm-12 col-xs-12">
-                  <label>Careers</label>
-                    <div>
-                      <!-- ko foreach: careers -->
-                      <button type="button" class="btn btn-info btn-sm"  data-bind="click: $root.removeCareer">
-                        &times;
-                        <!-- ko text: name --><!-- /ko -->
-                      </button>
-                      <!-- /ko -->
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                        Add <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu" data-bind="foreach: $root.availableCareers">
-                          <li><a href="#" data-bind="click: $root.addCareer, text: name"></a></li>
-                      </ul>
-                    </div><!-- /btn-group -->
-                  </div>
-                </div>
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active">
+              <a href="#">Characters</a>
+              <ul class="nav sub">
+                <li class="active"><a>Test</a></li>
+                <li><a>Test</a></li>
+                <li><a>Test</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Items</a></li>
+            <li><a href="#">Locations</a></li>
+            <li><a href="#">Encounters</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2">
+<div class="container" data-bind="with: model">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <label>Character Name</label>
+              <input type="text" data-bind="value: name" class="form-control input-sm" />
+            </div>
+            <div class="col-md-4">
+              <button type="button" data-bind="click: $parent.output" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-sm-4 col-xs-6">
+              <label>Race</label>
+              <select type="text" data-bind="options: $parent.availableRaces, optionsText: 'name', value: race" class="form-control input-sm" ></select>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+              <label>Archetype</label>
+              <select type="text" data-bind="options: race().availableArchetypes, value: archetype" class="form-control input-sm" ></select>
+            </div>
+            <div class="col-md-8 col-sm-12 col-xs-12">
+              <label>Careers</label>
+                <div>
+                  <!-- ko foreach: careers -->
+                  <button type="button" class="btn btn-info btn-sm"  data-bind="click: $root.removeCareer">
+                    &times;
+                    <!-- ko text: name --><!-- /ko -->
+                  </button>
+                  <!-- /ko -->
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                    Add <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" data-bind="foreach: $root.availableCareers">
+                      <li><a href="#" data-bind="click: $root.addCareer, text: name"></a></li>
+                  </ul>
+                </div><!-- /btn-group -->
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="panel panel-default" data-bind="with: stats">
-            <div class="panel-heading"><h3 class="panel-title">Stats</h3></div>
-            <div class="panel-body stats">
-              <div class="row">
-                <div class="col-xs-4">
-                  <label>PHY</label>
-                  <input type="text" data-bind="value: phy" class="form-control input-sm" />
-                </div>
-                <div class="col-xs-4">
-                  <label>SPD</label>
-                  <input type="text" data-bind="value: spd" class="form-control input-sm" />
-                </div>
-                <div class="col-xs-4">
-                  <label>STR</label>
-                  <input type="text" data-bind="value: str" class="form-control input-sm" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-4">
-                  <label>AGL</label>
-                  <input type="text" data-bind="value: agl" class="form-control input-sm" />
-                </div>
-                <div class="col-xs-4">
-                  <label>PRW</label>
-                  <input type="text" data-bind="value: prw" class="form-control input-sm" />
-                </div>
-                <div class="col-xs-4">
-                  <label>POI</label>
-                  <input type="text" data-bind="value: poi" class="form-control input-sm" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-4">
-                  <label>INT</label>
-                  <input type="text" data-bind="value: int" class="form-control input-sm" />
-                </div>
-                <div class="col-xs-4">
-                  <label>ARC</label>
-                  <input type="text" data-bind="value: arc" class="form-control input-sm" />
-                </div>
-                <div class="col-xs-4">
-                  <label>PER</label>
-                  <input type="text" data-bind="value: per" class="form-control input-sm" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-12">
-                  <label>WILLPOWER</label>
-                  <p data-bind="text: willpower" class="form-control-static input-sm" />
-                </div>
-              </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-default" data-bind="with: stats">
+        <div class="panel-heading"><h3 class="panel-title">Stats</h3></div>
+        <div class="panel-body stats">
+          <div class="row">
+            <div class="col-xs-4">
+              <label>PHY</label>
+              <input type="text" data-bind="value: phy" class="form-control input-sm" />
+            </div>
+            <div class="col-xs-4">
+              <label>SPD</label>
+              <input type="text" data-bind="value: spd" class="form-control input-sm" />
+            </div>
+            <div class="col-xs-4">
+              <label>STR</label>
+              <input type="text" data-bind="value: str" class="form-control input-sm" />
             </div>
           </div>
-          <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">Combat Stats</h3></div>
-            <div class="panel-body">
-              <label>DEF</label>
-              <div data-bind="text: def" class=" input-sm">
-              </div>
-              <label>ARM</label>
-              <div data-bind="text: arm" class=" input-sm"></div>
-              <label>Initiative</label>
-              <div data-bind="text: initiative" class=" input-sm"></div>
-              <label>Command Range</label>
-              <div data-bind="text: commandRange" class=" input-sm"></div>
+          <div class="row">
+            <div class="col-xs-4">
+              <label>AGL</label>
+              <input type="text" data-bind="value: agl" class="form-control input-sm" />
+            </div>
+            <div class="col-xs-4">
+              <label>PRW</label>
+              <input type="text" data-bind="value: prw" class="form-control input-sm" />
+            </div>
+            <div class="col-xs-4">
+              <label>POI</label>
+              <input type="text" data-bind="value: poi" class="form-control input-sm" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-4">
+              <label>INT</label>
+              <input type="text" data-bind="value: int" class="form-control input-sm" />
+            </div>
+            <div class="col-xs-4">
+              <label>ARC</label>
+              <input type="text" data-bind="value: arc" class="form-control input-sm" />
+            </div>
+            <div class="col-xs-4">
+              <label>PER</label>
+              <input type="text" data-bind="value: per" class="form-control input-sm" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label>WILLPOWER</label>
+              <p data-bind="text: willpower" class="form-control-static input-sm" />
             </div>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title ">Weapons</h3>
-            </div>
-            <div class="panel-body">
-              <label>Ranged Weapons</label>
-              <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                  Add <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" data-bind="foreach: $root.availableRangedWeapons">
-                    <li><a href="#" data-bind="click: $root.addRangedWeapon, text: name"></a></li>
-                </ul>
-              </div>
-              <table class="table table-condensed table-weapons">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>RNG</th>
-                    <th>RAT</th>
-                    <th>POW</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody data-bind="foreach: rangedWeapons">
-                  <tr>
-                    <td data-bind="text: name"></td>
-                    <td data-bind="text: range"></td>
-                    <td data-bind="text: attack"></td>
-                    <td data-bind="text: pow"></td>
-                    <td>
-                      <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeRangedWeapon">&times;</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <label>Melee Weapons</label>
-              <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                  Add <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" data-bind="foreach: $root.availableMeleeWeapons">
-                    <li><a href="#" data-bind="click: $root.addMeleeWeapon, text: name"></a></li>
-                </ul>
-              </div>
-              <table class="table table-condensed table-weapons">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>MAT</th>
-                    <th>P+S</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody data-bind="foreach: meleeWeapons">
-                  <tr>
-                    <td data-bind="text: name"></td>
-                    <td data-bind="text: attack"></td>
-                    <td data-bind="text: pPlusS"></td>
-                    <td>
-                      <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeMeleeWeapon">&times;</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <label>Additional Weapon</label>
-              <div></div>
-            </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Combat Stats</h3></div>
+        <div class="panel-body">
+          <label>DEF</label>
+          <div data-bind="text: def" class=" input-sm">
           </div>
-          <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">Spells</h3></div>
-            <div class="panel-body benefits">
-              <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  Add Spell <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <!-- ko foreach: $root.combinedAvailableSpells -->
-                    <li><a href="#" data-bind="click: $root.addSpell, text: name, tooltip: description" data-toggle="tooltip" data-placement="top"></a></li>
-                  <!-- /ko -->
-                </ul>
-              </div>
-              <table class="table-condensed table-spells">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>COST</th>
-                    <th>RNG</th>
-                    <th>AOE</th>
-                    <th>POW</th>
-                    <th>UP</th>
-                    <th>OFF</th>
-                  </tr>
-                </thead>
-                <tbody data-bind="foreach: spells">
-                  <tr>
-                    <td data-bind="text: name"></td>
-                    <td data-bind="text: cost"></td>
-                    <td data-bind="text: range"></td>
-                    <td data-bind="text: aoe"></td>
-                    <td data-bind="text: pow"></td>
-                    <td data-bind="text: upkeep"></td>
-                    <td data-bind="text: offensive"></td>
-                  </tr>
-                  <tr>
-                    <td colspan="7" data-bind="text: description"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <label>ARM</label>
+          <div data-bind="text: arm" class=" input-sm"></div>
+          <label>Initiative</label>
+          <div data-bind="text: initiative" class=" input-sm"></div>
+          <label>Command Range</label>
+          <div data-bind="text: commandRange" class=" input-sm"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title ">Weapons</h3>
+        </div>
+        <div class="panel-body">
+          <label>Ranged Weapons</label>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+              Add <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" data-bind="foreach: $root.availableRangedWeapons">
+                <li><a href="#" data-bind="click: $root.addRangedWeapon, text: name"></a></li>
+            </ul>
+          </div>
+          <table class="table table-condensed table-weapons">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>RNG</th>
+                <th>RAT</th>
+                <th>POW</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: rangedWeapons">
+              <tr>
+                <td data-bind="text: name"></td>
+                <td data-bind="text: range"></td>
+                <td data-bind="text: attack"></td>
+                <td data-bind="text: pow"></td>
+                <td>
+                  <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeRangedWeapon">&times;</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <label>Melee Weapons</label>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+              Add <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" data-bind="foreach: $root.availableMeleeWeapons">
+                <li><a href="#" data-bind="click: $root.addMeleeWeapon, text: name"></a></li>
+            </ul>
+          </div>
+          <table class="table table-condensed table-weapons">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>MAT</th>
+                <th>P+S</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: meleeWeapons">
+              <tr>
+                <td data-bind="text: name"></td>
+                <td data-bind="text: attack"></td>
+                <td data-bind="text: pPlusS"></td>
+                <td>
+                  <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeMeleeWeapon">&times;</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <label>Additional Weapon</label>
+          <div></div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Spells</h3></div>
+        <div class="panel-body benefits">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Add Spell <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <!-- ko foreach: $root.combinedAvailableSpells -->
+                <li><a href="#" data-bind="click: $root.addSpell, text: name, tooltip: description" data-toggle="tooltip" data-placement="top"></a></li>
+              <!-- /ko -->
+            </ul>
+          </div>
+          <table class="table-condensed table-spells">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>COST</th>
+                <th>RNG</th>
+                <th>AOE</th>
+                <th>POW</th>
+                <th>UP</th>
+                <th>OFF</th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: spells">
+              <tr>
+                <td data-bind="text: name"></td>
+                <td data-bind="text: cost"></td>
+                <td data-bind="text: range"></td>
+                <td data-bind="text: aoe"></td>
+                <td data-bind="text: pow"></td>
+                <td data-bind="text: upkeep"></td>
+                <td data-bind="text: offensive"></td>
+              </tr>
+              <tr>
+                <td colspan="7" data-bind="text: description"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Skills</h3></div>
+        <div class="panel-body">
+          <table class="table table-condensed table-skills">
+            <thead>
+              <tr>
+                <th>Skill</th>
+                <th>Stat</th>
+                <th>Level</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: militarySkills">
+              <tr>
+                <td data-bind="text: nameWithStat"></td>
+                <td data-bind="text: statValue"></td>
+                <td><input data-bind="value: level" class="form-control"/></td>
+                <td data-bind="text: total"></td>
+                <td>
+                  <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeSkill">&times;</button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody data-bind="foreach: occupationalSkills">
+              <tr>
+                <td data-bind="text: nameWithStat"></td>
+                <td data-bind="text: statValue"></td>
+                <td><input data-bind="value: level" class="form-control"/></td>
+                <td data-bind="text: total"></td>
+                <td>
+                  <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeSkill">&times;</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Add Skill <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation" class="dropdown-header">Military Skills</li>
+              <!-- ko foreach: $root.availableMilitarySkills -->
+                <li><a href="#" data-bind="click: $root.addSkill, text: name"></a></li>
+              <!-- /ko -->
+              <li role="presentation" class="dropdown-header">Occupational Skills</li>
+              <!-- ko foreach: $root.availableOccupationalSkills -->
+                <li><a href="#" data-bind="click: $root.addSkill, text: name"></a></li>
+              <!-- /ko -->
+            </ul>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">Skills</h3></div>
-            <div class="panel-body">
-              <table class="table table-condensed table-skills">
-                <thead>
-                  <tr>
-                    <th>Skill</th>
-                    <th>Stat</th>
-                    <th>Level</th>
-                    <th>Total</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody data-bind="foreach: militarySkills">
-                  <tr>
-                    <td data-bind="text: nameWithStat"></td>
-                    <td data-bind="text: statValue"></td>
-                    <td><input data-bind="value: level" class="form-control"/></td>
-                    <td data-bind="text: total"></td>
-                    <td>
-                      <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeSkill">&times;</button>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody data-bind="foreach: occupationalSkills">
-                  <tr>
-                    <td data-bind="text: nameWithStat"></td>
-                    <td data-bind="text: statValue"></td>
-                    <td><input data-bind="value: level" class="form-control"/></td>
-                    <td data-bind="text: total"></td>
-                    <td>
-                      <button type="button" class="close" aria-hidden="true" data-bind="click: $root.removeSkill">&times;</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  Add Skill <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li role="presentation" class="dropdown-header">Military Skills</li>
-                  <!-- ko foreach: $root.availableMilitarySkills -->
-                    <li><a href="#" data-bind="click: $root.addSkill, text: name"></a></li>
-                  <!-- /ko -->
-                  <li role="presentation" class="dropdown-header">Occupational Skills</li>
-                  <!-- ko foreach: $root.availableOccupationalSkills -->
-                    <li><a href="#" data-bind="click: $root.addSkill, text: name"></a></li>
-                  <!-- /ko -->
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">Damage Capacity</h3></div>
-            <div class="panel-body">
-              123
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">Benefits & Abilities</h3></div>
-            <div class="panel-body benefits">
-              <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  Add Ability <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <!-- ko foreach: $root.combinedAvailableAbilities -->
-                    <li><a href="#" data-bind="click: $root.addAbility, text: name, tooltip: description" data-toggle="tooltip" data-placement="top"></a></li>
-                  <!-- /ko -->
-                </ul>
-              </div>
-              <ul data-bind="foreach: abilities">
-                <li>
-                  <strong data-bind="text: name"></strong>
-                  &nbsp;-&nbsp;
-                  <span data-bind="text: description"></span>
-                </li>
-              </ul>
-              <!-- ko foreach: rangedWeaponsWithSpecial -->
-              <strong data-bind="text: name"></strong>
-              <ul data-bind="foreach: specialQualities">
-                <li>
-                  <strong data-bind="text: name"></strong>
-                  <!-- ko if: (description || '') != '' -->
-                  &nbsp;-&nbsp;
-                  <!-- /ko -->
-                  <span data-bind="text: description"></span>
-                </li>
-              </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Damage Capacity</h3></div>
+        <div class="panel-body">
+          123
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Benefits & Abilities</h3></div>
+        <div class="panel-body benefits">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Add Ability <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <!-- ko foreach: $root.combinedAvailableAbilities -->
+                <li><a href="#" data-bind="click: $root.addAbility, text: name, tooltip: description" data-toggle="tooltip" data-placement="top"></a></li>
               <!-- /ko -->
-              <!-- ko foreach: meleeWeaponsWithSpecial -->
-              <strong data-bind="text: name"></strong>
-              <ul data-bind="foreach: specialQualities">
-                <li>
-                  <strong data-bind="text: name"></strong>
-                  <!-- ko if: (description || '') != '' -->
-                  &nbsp;-&nbsp;
-                  <!-- /ko -->
-                  <span data-bind="text: description"></span>
-                </li>
-              </ul>
-              <!-- /ko -->
-            </div>
+            </ul>
           </div>
+          <ul data-bind="foreach: abilities">
+            <li>
+              <strong data-bind="text: name"></strong>
+              &nbsp;-&nbsp;
+              <span data-bind="text: description"></span>
+            </li>
+          </ul>
+          <!-- ko foreach: rangedWeaponsWithSpecial -->
+          <strong data-bind="text: name"></strong>
+          <ul data-bind="foreach: specialQualities">
+            <li>
+              <strong data-bind="text: name"></strong>
+              <!-- ko if: (description || '') != '' -->
+              &nbsp;-&nbsp;
+              <!-- /ko -->
+              <span data-bind="text: description"></span>
+            </li>
+          </ul>
+          <!-- /ko -->
+          <!-- ko foreach: meleeWeaponsWithSpecial -->
+          <strong data-bind="text: name"></strong>
+          <ul data-bind="foreach: specialQualities">
+            <li>
+              <strong data-bind="text: name"></strong>
+              <!-- ko if: (description || '') != '' -->
+              &nbsp;-&nbsp;
+              <!-- /ko -->
+              <span data-bind="text: description"></span>
+            </li>
+          </ul>
+          <!-- /ko -->
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
           
         </div>
       </div>
     </div>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js"></script>
